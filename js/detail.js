@@ -25,7 +25,6 @@ $(function () {
         number = parseInt(number);
         if (exist) {
             exist.number += number;
-            exist.price = 10000;
         } else {
             let obj = {
                 pID: target.pID,
@@ -33,6 +32,7 @@ $(function () {
                 name: target.name,
                 price: target.price,
                 number: number,
+                isChecked : true,
             }
             arr.push(obj);
         }
