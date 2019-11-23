@@ -46,25 +46,46 @@ $(function () {
     });
     $('.item-list').append(html);
     //实现全选
-    $('.pick-all').click(e => {
-        let pickAll = $('.pick-all').prop('checked');
+     
+    $('.pick-all').click(function(e){
+        let pickAll = $(this).prop('checked');
         $('.item-ck').prop('checked', pickAll);
         $('.pick-all').prop('checked', pickAll);
-
+        arr.forEach((e)=>{
+            e.isChecked = pickAll;
+        });
+        kits.saveData('cartListData', arr);
+        
+        
+       
     });
-
+ 
+    
+    let nockAll = arr.find((e,i)=>{
+        return e.isChecked == false;
+    });
+    if(nockAll){
+        $('.pick-all').prop('checked', false);
+        
+    }
     //实现点选，通过使用 $('.item-ck:checked').length 取得按钮的勾选数，将它和按钮的总长度进行比较。为真则是全勾选
     $('.item-list').on('click', '.item-ck', function () {
 
         let ckall = $('.item-ck').length == $('.item-ck:checked').length;
         $('.pick-all').prop('checked', ckall);
+
+        arr.forEach((e) => {
+            if (e.pID == $(this).parents('.item').attr('data-id')) {
+                e.isChecked = $(this).prop('checked');
+            }
+        });
+        kits.saveData('cartListData', arr);
         count();
 
-        // kits.saveData('cartListData', arr);
     })
-// 封装一个计算总价格和总件数的函数
-    function count(){
-        
+    // 封装一个计算总价格和总件数的函数
+    function count() {
+
         let sum = 0;
         let sumPrice = 0;
         arr.forEach((e, i) => {
