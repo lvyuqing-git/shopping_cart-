@@ -19,12 +19,18 @@ $(function () {
             return;
         }
         let arr = kits.loadData('cartListData');
+        // arr = [];
         let exist = arr.find(function (e, i) {
             return e.pID == id;
         });
         number = parseInt(number);
         if (exist) {
             exist.number += number;
+            let paopao = 0;
+            arr.forEach(e => {
+                paopao += e.number;
+            });
+            $('.count').text(paopao);
         } else {
             let obj = {
                 pID: target.pID,
@@ -32,20 +38,13 @@ $(function () {
                 name: target.name,
                 price: target.price,
                 number: number,
-                isChecked : true,
+                isChecked: true,
             }
             arr.push(obj);
         }
-
-       
         kits.saveData('cartListData', arr)
         location.href = './cart.html';
     });
-    let shuju = kits.loadData('cartListData');
-    let paopao = 0;
-    shuju.forEach(e => {
-        paopao += e.number;
-    });
-    $('.count').text(paopao);
    
+
 });

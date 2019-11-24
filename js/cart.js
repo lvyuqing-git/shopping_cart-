@@ -45,6 +45,22 @@ $(function () {
   </div>`;
     });
     $('.item-list').append(html);
+
+    // 封装一个计算总价格和总件数的函数
+    function count() {
+
+        let sum = 0;
+        let sumPrice = 0;
+        arr.forEach((e, i) => {
+            if (e.isChecked) {
+                sum += e.number;
+                sumPrice += e.price * e.number;
+            }
+        });
+
+        $('.selected').text(sum);
+        $('.total-money').text(sumPrice);
+    }
     //实现全选
 
     $('.pick-all').click(function (e) {
@@ -82,13 +98,10 @@ $(function () {
         count();
 
     })
+    // 商品数量添加
     $('.item-list').on('click', '.add', function () {
         let amountAdd = $(this).parents('.item').attr('data-id');
-        // arr.forEach((e) => {
-        //    if(amountAdd == e.pID){
-        //     ++amountAdd;
-        //    }
-        // });
+
         let amount = arr.find(function (e) {
             return amountAdd == e.pID;
         });
@@ -96,16 +109,16 @@ $(function () {
         kits.saveData('cartListData', arr);
         count();
         $(this).prev().val(amount.number);
+        //计算单项总价
+        $(this).parents('.item').find('.computed').text(amount.number * amount.price);
 
 
     })
+    // 商品数量减少
+
     $('.item-list').on('click', '.reduce', function () {
         let amountAdd = $(this).parents('.item').attr('data-id');
-        // arr.forEach((e) => {
-        //    if(amountAdd == e.pID){
-        //     ++amountAdd;
-        //    }
-        // });
+
         let amount = arr.find(function (e) {
             return amountAdd == e.pID;
         });
@@ -113,7 +126,9 @@ $(function () {
         kits.saveData('cartListData', arr);
         count();
         $(this).next().val(amount.number);
+        $(this).parents('.item').find('.computed').text(amount.number * amount.price);
     })
+
     $('.item-list').on('blur', '.number', function () {
         let amountAdd = $(this).parents('.item').attr('data-id');
         let amount = arr.find(function (e) {
@@ -130,41 +145,45 @@ $(function () {
         kits.saveData('cartListData', arr);
         count();
         $(this).val(amount.number);
+        $(this).parents('.item').find('.computed').text(amount.number * amount.price);
     })
+
+    //购物车泡泡
     let paopao = 0;
     arr.forEach(e => {
         paopao += e.number;
     });
     $('.count').text(paopao);
-    // $(document).click(function () {
-    //     let paopao = 0;
-    //     arr.forEach(e => {
-    //         paopao += e.number;
-    //     });
-    //     $('.count').text(paopao);
-    // });
-    $(document).on('click','.add,.reduce',function(){
+
+    $(document).on('click', '.add,.reduce', function () {
         let paopao = 0;
-            arr.forEach(e => {
-                paopao += e.number;
-            });
-            $('.count').text(paopao);
+        arr.forEach(e => {
+            paopao += e.number;
+        });
+        $('.count').text(paopao);
     })
-    
 
-    // 封装一个计算总价格和总件数的函数
-    function count() {
+    //删除
 
-        let sum = 0;
-        let sumPrice = 0;
-        arr.forEach((e, i) => {
-            if (e.isChecked) {
-                sum += e.number;
-                sumPrice += e.price * e.number;
+    $('.item-list').on('click', '.item-del', function () {
+        let amountAdd = $(this).parents('.item').attr('data-id');
+        let amount = [];
+        arr.forEach((e) => {
+            if (amountAdd == e.pID) {
+                $(this).parents('.item').remove();
             }
+
         });
 
-        $('.selected').text(sum);
-        $('.total-money').text(sumPrice);
-    }
+        let arr2 = arr.find((e) => {
+            return amountAdd != e.pID;
+        })
+        amount.push(arr2)
+        console.log(amount);
+        kits.saveData('cartListData', amount);
+        count();
+
+    })
+
+
 });
