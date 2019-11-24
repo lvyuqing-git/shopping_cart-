@@ -41,4 +41,11 @@ $(function () {
         kits.saveData('cartListData', arr)
         location.href = './cart.html';
     });
+    let shuju = kits.loadData('cartListData');
+    let paopao = 0;
+    shuju.forEach(e => {
+        paopao += e.number;
+    });
+    $('.count').text(paopao);
+   
 });

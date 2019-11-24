@@ -27,4 +27,12 @@ $(function () {
   </li>`;
   });
   $('.goods-list ul').append(str);
+
+  let arr = kits.loadData('cartListData')
+  let paopao = 0;
+  arr.forEach(e => {
+    paopao += e.number;
+  });
+  $('.count').text(paopao);
+
 });
