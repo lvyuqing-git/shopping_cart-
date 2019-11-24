@@ -174,13 +174,14 @@ $(function () {
             }
 
         });
+       //记得接收返回值!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        arr = arr.filter((e) => {
 
-        let arr2 = arr.find((e) => {
-            return amountAdd != e.pID;
-        })
-        amount.push(arr2)
-        console.log(amount);
-        kits.saveData('cartListData', amount);
+            return e.pID != amountAdd;
+        });
+     
+
+        kits.saveData('cartListData', arr);
         count();
 
     })

@@ -36,6 +36,5 @@ $(function () {
       paopao += e.number;
     });
     $('.count').text(paopao);
-  
 
 });

@@ -19,10 +19,14 @@ $(function () {
             return;
         }
         let arr = kits.loadData('cartListData');
-        // arr = [];
+        //如果是个空数组，并不会报错，而是放回undefined
+        //如果是【null】  (一个包含值为null数据的数组)就会报错
         let exist = arr.find(function (e, i) {
+            //如果不存在返回值为undefiend
             return e.pID == id;
         });
+
+        
         number = parseInt(number);
         if (exist) {
             exist.number += number;
